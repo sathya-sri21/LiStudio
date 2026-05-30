@@ -33,7 +33,7 @@ const Login = () => {
         {/* Logo */}
         <div className="auth-logo">
           <span className="logo-icon">🎬</span>
-          <h2>Li Studio</h2>
+          <h2>Lee Studio</h2>
         </div>
 
         {/* Title */}

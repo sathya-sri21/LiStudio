@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { HfInference } from "@huggingface/inference";
 import "./MakeVideo.css";
 
 const MakeVideo = () => {
@@ -7,39 +8,31 @@ const MakeVideo = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [source, setSource] = useState("pexels"); // 'pexels' or 'huggingface'
 
   const PEXELS_API_KEY = process.env.REACT_APP_PEXELS_API_KEY;
+  const HF_TOKEN = process.env.REACT_APP_HF_TOKEN;
 
-  // Correct API endpoint
-  const searchVideos = async (query) => {
-    // Check if API key exists
+  // Initialize Hugging Face client
+  const hf = new HfInference(HF_TOKEN);
+
+  // ========== PEXELS SEARCH (Existing) ==========
+  const searchPexelsVideos = async (query) => {
     if (!PEXELS_API_KEY) {
-      throw new Error("API key is missing! Please check your .env file.");
+      throw new Error("Pexels API key is missing!");
     }
 
-    // Correct endpoint with encoded query
     const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(query)}&per_page=5&orientation=landscape`;
     
-    console.log("Searching for:", query);
-    console.log("API URL:", url);
-
     const response = await axios.get(url, {
-      headers: { 
-        Authorization: PEXELS_API_KEY 
-      }
+      headers: { Authorization: PEXELS_API_KEY }
     });
-
-    console.log("Response status:", response.status);
-    console.log("Videos found:", response.data.videos?.length || 0);
 
     if (!response.data.videos || response.data.videos.length === 0) {
       throw new Error(`No videos found for "${query}"`);
     }
 
-    // Get the first video
     const video = response.data.videos[0];
-    
-    // Find the best quality video file (HD preferred)
     const bestVideo = video.video_files.find(
       file => file.quality === "hd" || file.quality === "sd"
     ) || video.video_files[0];
@@ -47,6 +40,30 @@ const MakeVideo = () => {
     return bestVideo.link;
   };
 
+  // ========== HUGGING FACE VIDEO GENERATION ==========
+  // Using a working text-to-video model from Hugging Face [citation:1][citation:9]
+  const generateHuggingFaceVideo = async (query) => {
+    if (!HF_TOKEN) {
+      throw new Error("Hugging Face token is missing! Please add REACT_APP_HF_TOKEN to .env");
+    }
+
+    console.log("🤗 Generating video with Hugging Face for:", query);
+    
+    // Using diffusers pipeline approach - compatible with Hugging Face models [citation:9]
+    const videoBlob = await hf.textToVideo({
+      model: "damo-vilab/text-to-video-ms-1.7b",  // Working model
+      inputs: query,
+      parameters: {
+        num_frames: 30,
+        guidance_scale: 7.5,
+        num_inference_steps: 50,
+      }
+    });
+
+    return URL.createObjectURL(videoBlob);
+  };
+
+  // ========== MAIN GENERATE FUNCTION ==========
   const handleGenerate = async () => {
     if (!prompt.trim()) {
       setError("Please enter a prompt!");
@@ -58,24 +75,30 @@ const MakeVideo = () => {
     setVideoUrl("");
 
     try {
-      const video = await searchVideos(prompt);
+      let video;
+      
+      if (source === "pexels") {
+        video = await searchPexelsVideos(prompt);
+        console.log("✅ Pexels video loaded!");
+      } else {
+        video = await generateHuggingFaceVideo(prompt);
+        console.log("✅ Hugging Face video generated!");
+      }
+      
       setVideoUrl(video);
-      console.log("Video loaded successfully!");
+      
     } catch (err) {
       console.error("Error:", err);
       
-      // Handle specific error codes
       if (err.response?.status === 401) {
-        setError("❌ Invalid API Key! Please check your .env file and restart the app.");
+        setError("❌ Invalid API Key! Please check your .env file.");
       } else if (err.response?.status === 429) {
-        setError("⏰ Rate limit exceeded. Please wait a moment and try again.");
-      } else if (err.response?.status === 404) {
-        setError("🔍 API endpoint not found. Please check your connection.");
+        setError("⏰ Rate limit exceeded. Please wait a moment.");
       } else {
-        setError(err.message || "Failed to generate video. Please try again.");
+        setError(err.message || "Failed to generate video.");
       }
       
-      // Optional: Fallback to a default video
+      // Fallback video
       setVideoUrl("https://cdn.pixabay.com/video/2019/07/30/25763-352095374_large.mp4");
     } finally {
       setIsLoading(false);
@@ -89,10 +112,34 @@ const MakeVideo = () => {
 
   return (
     <div className="app-container">
-      {/* LEFT PANEL */}
       <div className="left-panel">
-        <h1>🎬 Li Studio</h1>
+        <h1>🎬 Lee Studio</h1>
         <p className="subtitle">Text → Video AI</p>
+
+        {/* Source Selector - Choose between Pexels and Hugging Face */}
+        <div className="source-selector">
+          <button 
+            className={`source-btn ${source === "pexels" ? "active" : ""}`}
+            onClick={() => setSource("pexels")}
+          >
+            📹 Pexels (Instant)
+          </button>
+          <button 
+            className={`source-btn ${source === "huggingface" ? "active" : ""}`}
+            onClick={() => setSource("huggingface")}
+          >
+            🤗 Hugging Face (AI Generate)
+          </button>
+        </div>
+
+        {/* Info about current source */}
+        <div className="source-info">
+          {source === "pexels" ? (
+            <p>⚡ Pexels: Searches stock videos • 1-2 seconds • 200 req/hour</p>
+          ) : (
+            <p>🤖 Hugging Face: AI generates new video • 1-3 minutes • Free tier</p>
+          )}
+        </div>
 
         {error && <div className="error-message">{error}</div>}
 
@@ -109,7 +156,6 @@ const MakeVideo = () => {
             <option>Realistic</option>
             <option>Anime</option>
           </select>
-
           <select defaultValue="10 sec">
             <option>5 sec</option>
             <option>10 sec</option>
@@ -139,13 +185,18 @@ const MakeVideo = () => {
         </div>
       </div>
 
-      {/* RIGHT PANEL */}
       <div className="right-panel">
         {isLoading ? (
           <div className="loader">
             <div className="spinner"></div>
-            <p>Creating your video...</p>
-            <small>Searching Pexels for "{prompt}"</small>
+            <p>
+              {source === "pexels" ? "Searching Pexels..." : "🤗 AI is creating your video..."}
+            </p>
+            <small>
+              {source === "pexels" 
+                ? `Searching for "${prompt}"` 
+                : `Generating AI video for "${prompt}" - This may take 1-3 minutes`}
+            </small>
           </div>
         ) : videoUrl ? (
           <video key={videoUrl} controls autoPlay loop muted>

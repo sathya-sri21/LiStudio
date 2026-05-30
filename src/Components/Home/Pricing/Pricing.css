@@ -1,0 +1,186 @@
+.pricing-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  padding: 80px 60px;
+}
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.pricing-header h1 {
+  font-size: 48px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff, #a855f7);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 15px;
+}
+
+.pricing-header p {
+  font-size: 18px;
+  color: #94a3b8;
+}
+
+.billing-toggle {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+  padding: 5px;
+  margin-top: 30px;
+}
+
+.billing-toggle button {
+  padding: 10px 24px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: all 0.3s;
+}
+
+.billing-toggle button.active {
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  color: white;
+}
+
+.save-badge {
+  background: #22c55e;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  margin-left: 8px;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pricing-card {
+  background: rgba(20, 20, 35, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 24px;
+  padding: 40px 30px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.pricing-card.popular {
+  border-color: #a855f7;
+  box-shadow: 0 10px 40px rgba(168, 85, 247, 0.2);
+  transform: scale(1.02);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.plan-icon {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.pricing-card h2 {
+  color: white;
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.plan-price {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.plan-price .currency {
+  font-size: 20px;
+  color: #94a3b8;
+  vertical-align: top;
+}
+
+.plan-price .price {
+  font-size: 48px;
+  font-weight: 800;
+  color: white;
+}
+
+.plan-price .period {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.plan-description {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.plan-features li {
+  color: #cbd5e1;
+  font-size: 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.plan-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.plan-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.pricing-footer {
+  text-align: center;
+  margin-top: 50px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .pricing-page {
+    padding: 50px 25px;
+  }
+  .pricing-header h1 {
+    font-size: 32px;
+  }
+  .pricing-card.popular {
+    transform: none;
+  }
+}

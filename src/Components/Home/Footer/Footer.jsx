@@ -20,7 +20,7 @@ const Footer = () => {
         
         {/* Brand Section */}
         <div className="footer-brand">
-          <h3>Li Studio</h3>
+          <h3>Lee Studio</h3>
           <p>
             Create stunning AI-powered videos effortlessly. 
             Transform your ideas into cinematic masterpieces.
@@ -40,7 +40,7 @@ const Footer = () => {
           <ul>
             <li><a onClick={() => window.scrollTo(0, 0)}>Home</a></li>
             <li><a href="/about">About Us</a></li>
-            <li><a href="/features">Features</a></li>
+            <li><a href="/feature">Features</a></li>
             <li><a href="/pricing">Pricing</a></li>
             <li><a href="/contact">Contact</a></li>
           </ul>
@@ -50,11 +50,11 @@ const Footer = () => {
         <div className="footer-section">
           <h4>Resources</h4>
           <ul>
-            <li><a href="/help">Help Center</a></li>
-            <li><a href="/tutorials">Tutorials</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <li><a href="/api">API Documentation</a></li>
-            <li><a href="/community">Community</a></li>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Tutorials</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">API Documentation</a></li>
+            <li><a href="#">Community</a></li>
           </ul>
         </div>
 
@@ -62,7 +62,7 @@ const Footer = () => {
         <div className="footer-section">
           <h4>Stay Updated</h4>
           <div className="contact-info">
-            <p><span>📧</span> support@listudio.com</p>
+            <p><span>📧</span> support@leestudio.com</p>
             <p><span>📞</span> +1 (555) 123-4567</p>
             <p><span>📍</span> San Francisco, CA</p>
           </div>
@@ -87,7 +87,7 @@ const Footer = () => {
 
       {/* Footer Bottom */}
       <div className="footer-bottom">
-        <p>© 2026 Li Studio. All rights reserved.</p>
+        <p>© 2026 Lee Studio. All rights reserved.</p>
         <div className="footer-bottom-links">
           <a href="/privacy">Privacy Policy</a>
           <a href="/terms">Terms of Service</a>

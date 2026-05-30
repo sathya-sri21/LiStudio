@@ -13,24 +13,16 @@
   transition: all 0.3s ease;
 }
 
-/* Logo Section */
+/* Logo Section - Text only */
 .logo-section {
   display: flex;
   align-items: center;
-  gap: 12px;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
 
 .logo-section:hover {
   transform: scale(1.02);
-}
-
-.logo-section img {
-  width: 45px;
-  height: 45px;
-  object-fit: contain;
-  border-radius: 10px;
 }
 
 .logo-section h2 {
@@ -43,14 +35,13 @@
   letter-spacing: -0.5px;
 }
 
-/* Navigation Links Container */
+/* Navigation Links */
 .nav-links {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-/* Common Button Styles */
 .nav-links button {
   padding: 10px 24px;
   font-size: 16px;
@@ -58,7 +49,6 @@
   border-radius: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'Inter', sans-serif;
 }
 
 /* Login Button */
@@ -88,28 +78,17 @@
   background: linear-gradient(135deg, #b85ff7, #8b4aed);
 }
 
-/* Active/Clicked Effect */
-.nav-links button:active {
-  transform: translateY(1px);
+/* Scroll Effect */
+.navbar.scrolled {
+  padding: 12px 60px;
+  background: rgba(10, 10, 10, 0.98);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Mobile Menu Icon (Hidden on Desktop) */
-.mobile-menu-icon {
-  display: none;
-  font-size: 28px;
-  cursor: pointer;
-  color: white;
-}
-
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
   .navbar {
     padding: 15px 25px;
-  }
-
-  .logo-section img {
-    width: 35px;
-    height: 35px;
   }
 
   .logo-section h2 {
@@ -138,18 +117,5 @@
   .nav-links button {
     padding: 6px 14px;
     font-size: 13px;
-  }
-}
-
-/* Optional: Scroll effect - add this class via JavaScript when page scrolls */
-.navbar.scrolled {
-  padding: 12px 60px;
-  background: rgba(10, 10, 10, 0.98);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-}
-
-@media (max-width: 768px) {
-  .navbar.scrolled {
-    padding: 10px 25px;
   }
 }

@@ -7,10 +7,10 @@ const About = () => {
       {/* Animated Brand Icon */}
       <div className="brand-icon">🎬</div>
 
-      <h2>About Li Studio</h2>
+      <h2>About Lee Studio</h2>
 
       <p>
-        Li Studio is an AI-powered video platform where you can create
+        Lee Studio is an AI-powered video platform where you can create
         cinematic videos using text or edit your own clips easily.
       </p>
 
@@ -21,7 +21,7 @@ const About = () => {
         <div data-label="Trending Templates">🔥</div>
       </div>
 
-      {/* Optional: Stats Section to make it look professional */}
+      {/* Stats Section */}
       <div className="stats">
         <div className="stat-item">
           <div className="stat-number">10K+</div>

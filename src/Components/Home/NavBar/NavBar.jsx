@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./NavBar.css";
-import logo from "../../../Assets/logo.PNG";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -37,8 +36,7 @@ const Navbar = () => {
   return (
     <div className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="logo-section" onClick={handleLogoClick}>
-        <img src={logo} alt="Li Studio Logo" />
-        <h2>Li Studio</h2>
+        <h2>Lee Studio</h2>
       </div>
 
       <div className="nav-links">
